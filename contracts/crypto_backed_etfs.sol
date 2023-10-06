@@ -32,10 +32,8 @@ contract CryptoBackedETF is Ownable {
     // Events to track transactions
     event Purchase(address indexed buyer, uint256 amount, uint256 cost);
     event Redeem(address indexed redeemer, uint256 amount, uint256 receiveAmount);
-    event CheckBalance(string text, uint amount);
+    event CheckBalance(uint amount);
 
-    
-    
     // Constructor to initialize the ETF contract
     constructor(
         string memory _name,
@@ -100,12 +98,10 @@ contract CryptoBackedETF is Ownable {
     }
     
     function getBalance(address user_account) external returns (uint){
-    
-       string memory data = "User Balance is : ";
-       uint user_bal = user_account.balance;
-       emit CheckBalance(data, user_bal );
-       return (user_bal);
-
+        require(user_account != toToken, "Invalid address");
+        uint user_bal = user_account.balance;
+        emit CheckBalance(user_bal);
+        return (user_bal);
     }
 }
 
